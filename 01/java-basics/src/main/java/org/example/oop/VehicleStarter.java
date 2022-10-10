@@ -7,7 +7,7 @@ public class VehicleStarter {
         vehicle.start();
         Ford ford = new Ford(10);
         ford.start();
-        Tesla tesla = new Tesla(10);
+        Tesla tesla = new Tesla(0);
         tesla.start();
     }
 }

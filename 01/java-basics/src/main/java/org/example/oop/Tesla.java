@@ -7,7 +7,8 @@ public class Tesla extends Vehicle {
         this.charge = charge;
     }
 
-    void start(int charge) {
+    @Override
+    void start() {
         if (charge <= 0) {
             throw new IllegalStateException("Not enough charge");
         }
