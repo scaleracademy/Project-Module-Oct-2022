@@ -17,10 +17,10 @@ public class MultiThreadPrint {
         Th3 - 3
 
          */
-        DataPrinter printer = new DataPrinter(3);
-        Thread th1 = new SeqGenerator(0,printer);
-        Thread th2 = new SeqGenerator(1,printer);
-        Thread th3 = new SeqGenerator(2,printer);
+        DataPrinter printer = new DataPrinter();
+        Thread th1 = new SeqGenerator(printer);
+        Thread th2 = new SeqGenerator(printer);
+        Thread th3 = new SeqGenerator(printer);
 
         th1.start();
         th2.start();
@@ -31,18 +31,23 @@ public class MultiThreadPrint {
 
     public static class SeqGenerator extends  Thread {
         DataPrinter printer;
-        int threadId;
 
-        public SeqGenerator(int thId, DataPrinter pp) {
-            threadId = thId;
+        int endVal =0;
+
+        public SeqGenerator(int n) {
+            endVal = n;
+        }
+
+        public SeqGenerator(DataPrinter pp) {
             printer = pp;
+            printer.registerThread(this.getName());
         }
 
         @Override
         public void run() {
             for (int i=1;i<=10;i++) {
                 try {
-                    printer.print(threadId, i);
+                    printer.print(this.getName(), i);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -50,28 +55,25 @@ public class MultiThreadPrint {
         }
     }
     public static class DataPrinter  {
+        int curThread = 0;
 
-        int totalThreads;
-        int curThread=0;
-
-
-        public DataPrinter( int numTh) {
-            totalThreads = numTh;
+        List<String> threads = new ArrayList<>();
+        public void registerThread(String threadId) {
+            threads.add(threadId);
+            System.out.println(threadId);
         }
 
-
-        public synchronized void print(int thId, int val) throws InterruptedException {
-            while(curThread!=thId) {
+        public synchronized void print(String thId, int val) throws InterruptedException {
+            while(!threads.get(curThread).equals(thId)) {
                 wait();
             }
 
             System.out.println("Thread " + thId + " prints " + val);
 
-            curThread= (curThread + 1) % totalThreads;
+            curThread= (curThread + 1) % threads.size();
             notifyAll();
         }
     }
-
 /**
 Output 
 
