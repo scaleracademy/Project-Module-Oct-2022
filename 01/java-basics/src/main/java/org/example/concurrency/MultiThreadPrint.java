@@ -4,27 +4,109 @@ public class MultiThreadPrint {
 
     public static void main(String[] args) {
         /*
-         * print 1-100 3 times in 3 "parallel" threads
+        Th1 - 1
+        Th2 - 1
+        Th3 - 1
+
+        Th1 - 2
+        Th2 - 2
+        Th3 - 2
+
+        Th1 - 3
+        Th2 - 3
+        Th3 - 3
+
          */
+        DataPrinter printer = new DataPrinter(3);
+        Thread th1 = new SeqGenerator(0,printer);
+        Thread th2 = new SeqGenerator(1,printer);
+        Thread th3 = new SeqGenerator(2,printer);
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 1; i <= 100; i++) {
-                    System.out.println(Thread.currentThread().getName() + " " + i);
-                }
-            }
-        };
+        th1.start();
+        th2.start();
+        th3.start();
 
-        Thread t1 = new Thread(r);
-        Thread t2 = new Thread(r);
-        Thread t3 = new Thread(r);
-        t1.start();
-        t2.start();
-        t3.start();
+
     }
 
-    /**
+    public static class SeqGenerator extends  Thread {
+        DataPrinter printer;
+        int threadId;
+
+        public SeqGenerator(int thId, DataPrinter pp) {
+            threadId = thId;
+            printer = pp;
+        }
+
+        @Override
+        public void run() {
+            for (int i=1;i<=10;i++) {
+                try {
+                    printer.print(threadId, i);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+    public static class DataPrinter  {
+
+        int totalThreads;
+        int curThread=0;
+
+
+        public DataPrinter( int numTh) {
+            totalThreads = numTh;
+        }
+
+
+        public synchronized void print(int thId, int val) throws InterruptedException {
+            while(curThread!=thId) {
+                wait();
+            }
+
+            System.out.println("Thread " + thId + " prints " + val);
+
+            curThread= (curThread + 1) % totalThreads;
+            notifyAll();
+        }
+    }
+
+/**
+Output 
+
+Thread 0 prints 1
+Thread 1 prints 1
+Thread 2 prints 1
+Thread 0 prints 2
+Thread 1 prints 2
+Thread 2 prints 2
+Thread 0 prints 3
+Thread 1 prints 3
+Thread 2 prints 3
+Thread 0 prints 4
+Thread 1 prints 4
+Thread 2 prints 4
+Thread 0 prints 5
+Thread 1 prints 5
+Thread 2 prints 5
+Thread 0 prints 6
+Thread 1 prints 6
+Thread 2 prints 6
+Thread 0 prints 7
+Thread 1 prints 7
+Thread 2 prints 7
+Thread 0 prints 8
+Thread 1 prints 8
+Thread 2 prints 8
+Thread 0 prints 9
+Thread 1 prints 9
+Thread 2 prints 9
+Thread 0 prints 10
+Thread 1 prints 10
+Thread 2 prints 10
+    
+    
      * ASSIGNMENT (PROJECT CLASS 01)
      *
      * Write more ways of achieving the above goal.
