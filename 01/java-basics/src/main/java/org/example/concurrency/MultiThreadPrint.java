@@ -1,5 +1,8 @@
 package org.example.concurrency;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MultiThreadPrint {
 
     public static void main(String[] args) {
@@ -7,21 +10,17 @@ public class MultiThreadPrint {
          * print 1-100 3 times in 3 "parallel" threads
          */
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 1; i <= 100; i++) {
-                    System.out.println(Thread.currentThread().getName() + " " + i);
-                }
-            }
-        };
+        final Integer nThreads = 3;
+        final Integer startValue = 1;
+        final Integer finalValue = 100;
 
-        Thread t1 = new Thread(r);
-        Thread t2 = new Thread(r);
-        Thread t3 = new Thread(r);
-        t1.start();
-        t2.start();
-        t3.start();
+        State state = new State(nThreads);
+        List<Thread> printers = new ArrayList<>();
+
+        for (int i = 0; i < nThreads; i++) {
+            printers.add(new Thread(new Printer(state, startValue, finalValue, i)));
+            printers.get(i).start();
+        }
     }
 
     /**
