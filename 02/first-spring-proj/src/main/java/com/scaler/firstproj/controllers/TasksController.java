@@ -1,10 +1,7 @@
 package com.scaler.firstproj.controllers;
 
 import com.scaler.firstproj.data.Task;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +33,24 @@ public class TasksController {
         // sample data for testing
         this.tasks.add(new Task("Task 1", new Date(), false));
         this.tasks.add(new Task("Task 2", new Date(), true));
+    }
+
+    @PostMapping
+    public String createTask(@RequestBody Task task) {
+        tasks.add(task);
+        return "Task added successfully!";
+    }
+
+    @PutMapping("{id}")
+    public String updateTask(@PathVariable("id") int id, @RequestBody Task task) {
+        tasks.set(id, task);
+        return "Task updated!";
+    }
+
+    @DeleteMapping("{id}")
+    public String deleteTask(@PathVariable("id") int id) {
+        tasks.remove(id);
+        return "Task deleted!";
     }
 
     @GetMapping("")
