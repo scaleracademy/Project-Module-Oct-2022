@@ -45,7 +45,7 @@ public class TasksController {
     }
 
     @DeleteMapping("delete/{title}")
-    public boolean deleteTaskById(@PathVariable("title") String title) {
+    public boolean deleteTaskByTitle(@PathVariable("title") String title) {
         for (Task task : tasks) {
             if (task.getTitle().equals(title)) {
                 tasks.remove(task);
@@ -55,7 +55,7 @@ public class TasksController {
         return false;
     }
     @PutMapping("/update/{title}")
-    public boolean updateTaskById(@PathVariable("title") String title, @RequestBody Task task) {
+    public boolean updateTaskByTitle(@PathVariable("title") String title, @RequestBody Task task) {
         for (Task task1 : tasks) {
             if (task1.getTitle().equals(title)) {
                 task1.setCompleted(task.getCompleted());
