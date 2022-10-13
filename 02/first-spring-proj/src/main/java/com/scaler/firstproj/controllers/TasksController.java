@@ -1,10 +1,7 @@
 package com.scaler.firstproj.controllers;
 
 import com.scaler.firstproj.data.Task;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,12 +36,55 @@ public class TasksController {
     }
 
     @GetMapping("")
-    public ArrayList<Task> getAllTasks() {
+    public List<Task> getAllTasks() {
         return tasks;
     }
 
     @GetMapping("/{id}")
     public Task getTaskById(@PathVariable("id") Integer id) {
         return tasks.get(id);
+    }
+
+    @PostMapping("")
+    public Integer createTask(@RequestBody Task task) {
+        tasks.add(task);
+        return tasks.size() - 1;
+    }
+
+    @DeleteMapping("/{id}")
+    public Boolean deleteTask(@PathVariable("id") Integer id) {
+        if (id < 0 || id >= tasks.size()) {
+            return false;
+        }
+
+        tasks.remove(id);
+
+        return true;
+    }
+
+    @PatchMapping("/{id}")
+    public Boolean updateTask(@PathVariable("id") Integer id, @RequestBody Task updatedTask) {
+        if (id < 0 || id >= tasks.size()) {
+            return false;
+        }
+
+        Task task = tasks.get(id);
+
+        boolean isUpdated = false;
+
+        if (updatedTask.getTitle() != null) {
+            isUpdated = true;
+            task.setTitle(updatedTask.getTitle());
+        }
+        if (updatedTask.getDueDate() != null) {
+            isUpdated = true;
+            task.setDueDate(updatedTask.getDueDate());
+        }
+        if (updatedTask.getCompleted() != null) {
+            isUpdated = true;
+            task.setCompleted(updatedTask.getCompleted());
+        }
+
+        return isUpdated;
     }
 }
