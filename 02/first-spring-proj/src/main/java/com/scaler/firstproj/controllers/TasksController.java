@@ -1,8 +1,10 @@
 package com.scaler.firstproj.controllers;
 
 import com.scaler.firstproj.data.Task;
-import com.scaler.firstproj.service.TaskService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,38 +28,23 @@ public class TasksController {
     4. List all tasks
      */
 
-
+    ArrayList<Task> tasks;
 
     public TasksController() {
-        TaskService.createTask(new Task("Task 1",new Date(),false));
-        TaskService.createTask(new Task("Task 2",new Date(),false));
-        TaskService.createTask(new Task("Task 3",new Date(),false));
+        this.tasks = new ArrayList<>();
+
+        // sample data for testing
+        this.tasks.add(new Task("Task 1", new Date(), false));
+        this.tasks.add(new Task("Task 2", new Date(), true));
     }
 
     @GetMapping("")
     public ArrayList<Task> getAllTasks() {
-        return TaskService.getAllTasks();
+        return tasks;
     }
-
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable("id") Long id) {
-        return TaskService.getTaskById(id);
+    public Task getTaskById(@PathVariable("id") Integer id) {
+        return tasks.get(id);
     }
-
-    @PostMapping("")
-    public Task createTask(@RequestBody Task task) {
-        return TaskService.createTask(task);
-    }
-
-    @DeleteMapping("/{id}")
-    public Task deleteTask(@PathVariable("id") Long id) {
-        return TaskService.deleteTaskById(id);
-    }
-
-    @PatchMapping("")
-    public Task updateTask(@RequestBody Task task) {
-        return TaskService.updateTask(task);
-    }
-
 }
