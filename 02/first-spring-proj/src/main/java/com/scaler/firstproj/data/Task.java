@@ -2,10 +2,10 @@ package com.scaler.firstproj.data;
 
 import java.util.Date;
 
-public class Task {
-    String title;
-    Date dueDate;
-    Boolean completed;
+public class Task extends BaseModel {
+    private  String title;
+    private Date dueDate;
+    private Boolean completed;
 
     public Task(String title, Date dueDate, Boolean completed) {
         this.title = title;
