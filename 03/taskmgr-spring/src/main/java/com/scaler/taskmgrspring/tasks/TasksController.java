@@ -8,36 +8,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 public class TasksController {
-
-    /*
-         * POST /tasks
-Create a new task
-
-GET /tasks
-Get all tasks Available filters -
-
-/articles?completed=true/false
-GET /tasks/{task_id}
-Get the details of a particular task including notes
-
-PATCH /tasks/{task_id}
-Edit a task - Add / Remove notes from the task. Mark a task completed.
-
-PATCH /tasks/{task_id}
-DELETE /tasks/{task_id}
-Delete a particular task
-
----- ADDITIONAL TASKS (BONUS) -----
-
-GET /tasks/{task_id}/notes
-Fetch all the notes under a particular task
-
-POST /tasks/{task_id}/notes
-Create a new note under the task with given task id
-
-DELETE /tasks/{task_id}/notes/{notes_id}
-Delete a note
-            */
     private final TasksService tasksService;
 
     public TasksController(TasksService tasksService) {
@@ -73,6 +43,4 @@ Delete a note
     void addNoteToTask(@RequestBody NotesDTO note, @PathVariable Long id) {
         tasksService.addNoteToTask(note, id);
     }
-
-
 }
