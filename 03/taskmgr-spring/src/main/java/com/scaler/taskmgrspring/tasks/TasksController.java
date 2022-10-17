@@ -13,8 +13,4 @@ public class TasksController {
         this.tasksService = tasksService;
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return tasksService.getGreeting();
-    }
 }
