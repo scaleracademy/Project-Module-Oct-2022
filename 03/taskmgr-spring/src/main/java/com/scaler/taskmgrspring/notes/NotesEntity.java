@@ -1,10 +1,7 @@
 package com.scaler.taskmgrspring.notes;
 
 import com.scaler.taskmgrspring.tasks.TaskEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity(name = "notes")
 public class NotesEntity {
     @Id
@@ -21,6 +19,6 @@ public class NotesEntity {
     private String title;
     private String description;
 
-    @ManyToOne(targetEntity = TaskEntity.class)
+    @ManyToOne(targetEntity = TaskEntity.class, cascade = CascadeType.ALL)
     private TaskEntity task;
 }

@@ -1,10 +1,7 @@
 package com.scaler.taskmgrspring.tasks;
 
 import com.scaler.taskmgrspring.notes.NotesEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity(name = "tasks")
 public class TaskEntity {
     @Id
@@ -25,6 +23,6 @@ public class TaskEntity {
     private Boolean completed;
     private Date dueDate;
 
-    @OneToMany(targetEntity = NotesEntity.class, cascade = CascadeType.ALL, mappedBy = "task")
+    @OneToMany(targetEntity = NotesEntity.class, mappedBy = "task")
     private List<NotesEntity> notes;
 }
