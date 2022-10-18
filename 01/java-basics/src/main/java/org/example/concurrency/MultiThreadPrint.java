@@ -1,5 +1,7 @@
 package org.example.concurrency;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class MultiThreadPrint {
 
     public static void main(String[] args) {
@@ -7,21 +9,13 @@ public class MultiThreadPrint {
          * print 1-100 3 times in 3 "parallel" threads
          */
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 1; i <= 100; i++) {
-                    System.out.println(Thread.currentThread().getName() + " " + i);
-                }
-            }
-        };
-
-        Thread t1 = new Thread(r);
-        Thread t2 = new Thread(r);
-        Thread t3 = new Thread(r);
-        t1.start();
-        t2.start();
-        t3.start();
+        AtomicInteger counter = new AtomicInteger(0);
+        int n = 3;
+        int max_count = 100;
+        for (int i = 0; i < n; i++) {
+            Thread t = new Thread(new ThreadPrinter(counter, max_count, i, n), "Thread " + (i + 1));
+            t.start();
+        }
     }
 
     /**
@@ -39,4 +33,5 @@ public class MultiThreadPrint {
      *  Thread 2 - 2
      *  Thread 3 - 2
      */
+
 }
