@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+// First Ever Spring boot code.
+
 @RestController
 @RequestMapping("/tasks")
 public class TasksController {
@@ -28,14 +30,14 @@ public class TasksController {
     4. List all tasks
      */
 
-    ArrayList<Task> tasks;
+    private ArrayList<Task> tasks = new ArrayList<Task>();
 
-    public TasksController() {
-        this.tasks = new ArrayList<>();
-
-        // sample data for testing
-        this.tasks.add(new Task("Task 1", new Date(), false));
-        this.tasks.add(new Task("Task 2", new Date(), true));
+    public TaskController() {
+        // Some in-built tasks.
+        tasks.add(new Task("Get Up", new Date(), true));
+        tasks.add(new Task("Brush", new Date(), true));
+        tasks.add(new Task("Bath", new Date(), true));
+        tasks.add(new Task("Meditate", new Date(), true));
     }
 
     @GetMapping("")
@@ -44,7 +46,37 @@ public class TasksController {
     }
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable("id") Integer id) {
+    public Task getTaskById(@PathVariable("id") int id) {
+        if (id < 0 || id > tasks.size() - 1)
+            throw new RuntimeException("No task found with id " + id);
+
         return tasks.get(id);
+    }
+
+    @PostMapping
+    public String createTask(@RequestBody Task task) {
+        tasks.add(task);
+
+        return "Task created!";  // TODO: Need to improve responses.
+    }
+
+    @PutMapping("/{id}")
+    public String updateTaskById(@PathVariable("id") int id, @RequestBody Task task) {
+        if (id < 0 || id > tasks.size() - 1)
+            return "No task found with id " + id;
+
+        tasks.set(id, task);   // overwrite full task.
+
+        return "Task id " + id + " updated.";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteTaskById(@PathVariable("id") int id) {
+        if (id < 0 || id > tasks.size() - 1)
+            return "Invalid task id " + id;
+
+        tasks.remove(id);
+
+        return "Task id " + id + " deleted.";
     }
 }
