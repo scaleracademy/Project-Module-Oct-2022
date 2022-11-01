@@ -27,7 +27,7 @@ public class CommentEntity extends BaseModel {
     @Column(nullable = false)
     String text;
 
-    @ManyToOne(mappedBy="comments")
+    @ManyToOne
     @Column(nullable = false)
     ArticleEntity article;
 
