@@ -1,4 +1,4 @@
-package com.scaler.authdemo.security;
+package com.scaler.authdemo.security.authtoken;
 
 import com.scaler.authdemo.users.UserEntity;
 import lombok.AllArgsConstructor;

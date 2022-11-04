@@ -1,5 +1,8 @@
 package com.scaler.authdemo.users;
 
+import com.scaler.authdemo.users.dtos.CreateUserDto;
+import com.scaler.authdemo.users.dtos.LoginUserDto;
+import com.scaler.authdemo.users.dtos.UserResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

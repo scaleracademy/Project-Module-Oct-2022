@@ -1,4 +1,4 @@
-package com.scaler.authdemo.users;
+package com.scaler.authdemo.users.dtos;
 
 import lombok.Data;
 
