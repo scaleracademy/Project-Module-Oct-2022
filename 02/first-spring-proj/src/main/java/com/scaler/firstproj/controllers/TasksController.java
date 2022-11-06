@@ -1,17 +1,14 @@
 package com.scaler.firstproj.controllers;
 
+import com.scaler.firstproj.data.Response;
+import com.scaler.firstproj.data.StatusCode;
 import com.scaler.firstproj.data.Task;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("api/v1/tasks")
 public class TasksController {
 
 
@@ -28,23 +25,59 @@ public class TasksController {
     4. List all tasks
      */
 
-    ArrayList<Task> tasks;
+    HashMap<String, Task> tasksMap;
 
     public TasksController() {
-        this.tasks = new ArrayList<>();
+        this.tasksMap = new HashMap<>();
 
         // sample data for testing
-        this.tasks.add(new Task("Task 1", new Date(), false));
-        this.tasks.add(new Task("Task 2", new Date(), true));
+        Task task =  new Task("Task 1", new Date(), false);
+        this.tasksMap.put(task.getId(), task);
+
+        task = new Task("Task 2", new Date(), true);
+        this.tasksMap.put(task.getId(), task);
     }
 
     @GetMapping("")
-    public ArrayList<Task> getAllTasks() {
-        return tasks;
+    public Response getAllTasks() {
+        ArrayList<Task> results = new ArrayList<Task>(tasksMap.values());
+        Response response = new Response(results, StatusCode.OK);
+        return response;
     }
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable("id") Integer id) {
-        return tasks.get(id);
+    public Response getTaskById(@PathVariable("id") String id) {
+        if(!tasksMap.containsKey(id)){
+            return new Response("Please send the valid taskId", StatusCode.NotFound);
+        }
+
+        return new Response(tasksMap.get(id), StatusCode.OK);
+    }
+
+    @PostMapping("")
+    public Response createTask(@RequestBody Task task){
+        tasksMap.put(task.getId(), task);
+        return new Response(task, StatusCode.Created);
+    }
+
+    @PutMapping("/{id}")
+    public Response updateTask(@PathVariable("id") String id, @RequestBody Task task){
+        if(!tasksMap.containsKey(id)){
+            return new Response("Please send the valid taskId", StatusCode.BadRequest);
+        }
+
+        task.setId(id);
+        tasksMap.put(id, task);
+        return new Response(task, StatusCode.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public Response deleteTask(@PathVariable("id") String id){
+        if(!tasksMap.containsKey(id)){
+            return new Response("Please send the valid taskId", StatusCode.BadRequest);
+        }
+
+        tasksMap.remove(id);
+        return new Response(new ArrayList<>(),StatusCode.Deleted);
     }
 }
