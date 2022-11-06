@@ -2,15 +2,26 @@ package com.scaler.firstproj.data;
 
 import java.util.Date;
 
+
 public class Task {
     String title;
     Date dueDate;
     Boolean completed;
+    Integer id;
 
-    public Task(String title, Date dueDate, Boolean completed) {
+    public Task(String title, Date dueDate, Boolean completed, Integer id) {
         this.title = title;
         this.dueDate = dueDate;
         this.completed = completed;
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {
