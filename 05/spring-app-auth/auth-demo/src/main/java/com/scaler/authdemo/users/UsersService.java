@@ -52,4 +52,10 @@ public class UsersService {
         response.setToken(authTokenService.createToken(user));
         return response;
     }
+
+    public UserResponseDto findUserByUsername(String username) {
+        UserEntity user = usersRepo.findByUsername(username);
+        var response = modelMapper.map(user, UserResponseDto.class);
+        return response;
+    }
 }
