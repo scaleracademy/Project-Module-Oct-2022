@@ -12,6 +12,10 @@ public class JwtService {
     Algorithm algorithm = Algorithm.HMAC256(SECRET);
 
     public String createJwt(String username) {
+        if (username == null) {
+            throw new IllegalArgumentException("Cannot create JWT with blank username");
+        }
+
         return JWT.create()
                 .withSubject(username)
                 .withIssuedAt(new Date())
