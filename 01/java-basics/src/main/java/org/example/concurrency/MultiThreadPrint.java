@@ -7,36 +7,24 @@ public class MultiThreadPrint {
          * print 1-100 3 times in 3 "parallel" threads
          */
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 1; i <= 100; i++) {
-                    System.out.println(Thread.currentThread().getName() + " " + i);
-                }
-            }
-        };
+        int max = 100;
+        int threadCount = 3;
+        AtomicInteger turn = new AtomicInteger(0);
 
-        Thread t1 = new Thread(r);
-        Thread t2 = new Thread(r);
-        Thread t3 = new Thread(r);
+        Thread t1 = new Thread(new NumberSequencePrinter(max, threadCount, turn, 0));
+        Thread t2 = new Thread(new NumberSequencePrinter(max, threadCount, turn, 1));
+        Thread t3 = new Thread(new NumberSequencePrinter(max, threadCount, turn, 2));
+
         t1.start();
         t2.start();
         t3.start();
-    }
 
-    /**
-     * ASSIGNMENT (PROJECT CLASS 01)
-     *
-     * Write more ways of achieving the above goal.
-     *
-     * BONUS:
-     *  Find a way to exactly print (i.e. strict round-robin order)
-     *
-     *  Thread 1 - 1
-     *  Thread 2 - 1
-     *  Thread 3 - 1
-     *  Thread 1 - 2
-     *  Thread 2 - 2
-     *  Thread 3 - 2
-     */
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+        }
+        catch (InterruptedException ex) {
+        }
+    }
 }
