@@ -2,41 +2,20 @@ package org.example.concurrency;
 
 public class MultiThreadPrint {
 
-    public static void main(String[] args) {
-        /*
-         * print 1-100 3 times in 3 "parallel" threads
-         */
+    public static void main(String[] args)
+    {
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 1; i <= 100; i++) {
-                    System.out.println(Thread.currentThread().getName() + " " + i);
-                }
-            }
-        };
+        PrintThreadsSequence pts1=new PrintThreadsSequence(1);
+        PrintThreadsSequence pts2=new PrintThreadsSequence(2);
+        PrintThreadsSequence pts3=new PrintThreadsSequence(0);
 
-        Thread t1 = new Thread(r);
-        Thread t2 = new Thread(r);
-        Thread t3 = new Thread(r);
+        Thread t1=new Thread(pts1,"T1");
+        Thread t2=new Thread(pts2,"T2");
+        Thread t3=new Thread(pts3,"T3");
+
         t1.start();
         t2.start();
         t3.start();
     }
 
-    /**
-     * ASSIGNMENT (PROJECT CLASS 01)
-     *
-     * Write more ways of achieving the above goal.
-     *
-     * BONUS:
-     *  Find a way to exactly print (i.e. strict round-robin order)
-     *
-     *  Thread 1 - 1
-     *  Thread 2 - 1
-     *  Thread 3 - 1
-     *  Thread 1 - 2
-     *  Thread 2 - 2
-     *  Thread 3 - 2
-     */
 }
