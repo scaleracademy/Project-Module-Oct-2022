@@ -1,5 +1,8 @@
 package com.scaler.authdemo.security;
 
+import com.scaler.authdemo.security.authtoken.AuthTokenService;
+import com.scaler.authdemo.security.authtoken.SSTAuthenticationFilter;
+import com.scaler.authdemo.security.authtoken.SSTAuthenticationManager;
 import com.scaler.authdemo.security.jwt.JwtAuthenticationFilter;
 import com.scaler.authdemo.security.jwt.JwtAuthenticationManager;
 import com.scaler.authdemo.security.jwt.JwtService;
@@ -16,8 +19,8 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 @EnableWebSecurity
 @Configuration
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
-//    private SSTAuthenticationFilter sstAuthenticationFilter;
+    //private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private SSTAuthenticationFilter sstAuthenticationFilter;
 
     /* ASSIGNMENT 06:
 
@@ -26,13 +29,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
      */
 
     public AppSecurityConfig(
-            JwtService jwtService,
-            UsersService usersService
+           AuthTokenService authTokenService
     ) {
-        jwtAuthenticationFilter = new JwtAuthenticationFilter(
-                new JwtAuthenticationManager(
-                        jwtService, usersService
-                )
+        sstAuthenticationFilter = new SSTAuthenticationFilter(
+                new SSTAuthenticationManager(authTokenService)
         );
     }
 
@@ -45,8 +45,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/users", "/users/login").permitAll()
                 .antMatchers("/*/**").authenticated()
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, AnonymousAuthenticationFilter.class)
-//                .addFilterBefore(sstAuthenticationFilter, AnonymousAuthenticationFilter.class)
+                //.addFilterBefore(jwtAuthenticationFilter, AnonymousAuthenticationFilter.class)
+                .addFilterBefore(sstAuthenticationFilter, AnonymousAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         super.configure(http);

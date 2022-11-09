@@ -31,11 +31,11 @@ public class UsersService {
         var savedUser = usersRepo.save(user);
         var response = modelMapper.map(savedUser, UserResponseDto.class);
         // OPTION 1: Server side token
-        // var token = authTokenService.createToken(savedUser);
-        // response.setToken(token);
-        // OPTION 2: JWT
-        var token = jwtService.createJwt(savedUser.getUsername());
+        var token = authTokenService.createToken(savedUser);
         response.setToken(token);
+        // OPTION 2: JWT
+        // var token = jwtService.createJwt(savedUser.getUsername());
+        // response.setToken(token);
         return response;
     }
 

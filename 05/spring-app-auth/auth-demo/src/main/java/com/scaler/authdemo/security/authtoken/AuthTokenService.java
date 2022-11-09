@@ -4,6 +4,8 @@ import com.scaler.authdemo.users.UserEntity;
 import com.scaler.authdemo.users.UsersRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AuthTokenService {
     private AuthTokenRepository authTokenRepo;
@@ -21,8 +23,9 @@ public class AuthTokenService {
         return token.getToken().toString();
     }
 
-    public UserEntity getUserFromToken(String token) {
-        var authToken = authTokenRepo.findById(token).orElseThrow();
+    public UserEntity getUserFromToken(String tokenString) {
+        var token = UUID.fromString(tokenString);
+        var authToken = authTokenRepo.findById(token).get();
         return authToken.getUser();
     }
 }
