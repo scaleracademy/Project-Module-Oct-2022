@@ -16,6 +16,7 @@ import java.util.UUID;
 @Getter
 public class AuthTokenEntity {
     @Id
+    @Column(length = 16)            // use this to accurately compare UUIDs
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID token;
 
