@@ -13,10 +13,4 @@ public class TaskmgrSpringApplication {
         SpringApplication.run(TaskmgrSpringApplication.class, args);
     }
 
-    @Bean
-    @Scope("singleton")
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
 }
