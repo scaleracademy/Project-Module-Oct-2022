@@ -3,14 +3,21 @@ package com.scaler.firstproj.data;
 import java.util.Date;
 
 public class Task {
+    public static int idCounter = 0;
+    int id;
     String title;
     Date dueDate;
     Boolean completed;
 
-    public Task(String title, Date dueDate, Boolean completed) {
+    public Task(String title, Date dueDate) {
+        id = idCounter++;
         this.title = title;
         this.dueDate = dueDate;
-        this.completed = completed;
+        this.completed = false;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
