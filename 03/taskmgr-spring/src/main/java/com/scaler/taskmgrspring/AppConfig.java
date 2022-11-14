@@ -1,4 +1,4 @@
-package com.scaler.taskmgrspring.tasks;
+package com.scaler.taskmgrspring;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -6,13 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 @Configuration
-public class TaskConfig {
+public class AppConfig {
 
     @Bean
     @Scope("singleton")
     public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        return modelMapper;
+        return new ModelMapper();
     }
 }

@@ -21,7 +21,7 @@ public class TasksService {
         this.modelMapper = modelMapper;
     }
 
-    private TaskEntity findTask(Long id) {
+    public TaskEntity findTask(Long id) {
         return tasksRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
     }
 

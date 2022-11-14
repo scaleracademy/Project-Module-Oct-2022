@@ -1,11 +1,11 @@
 package com.scaler.taskmgrspring.notes.dtos;
 
 import lombok.Data;
-import org.springframework.lang.NonNull;
 
 @Data
-public class CreateNotesRequestDto {
-    @NonNull
+public class NotesResponseDto {
+    private Long id;
     private String title;
     private String description;
+    private Long taskId;
 }
