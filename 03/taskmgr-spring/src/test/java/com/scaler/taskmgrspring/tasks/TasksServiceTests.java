@@ -1,5 +1,6 @@
 package com.scaler.taskmgrspring.tasks;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -21,6 +22,13 @@ public class TasksServiceTests {
                 new Date()
         );
 
-        System.out.println(task);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("Test Task", task.getTitle()),
+                () -> Assertions.assertEquals("Test Description", task.getDescription()),
+                () -> Assertions.assertEquals(false, task.getCompleted()),
+                () -> Assertions.assertNotNull(task.getDueDate()),
+                () -> Assertions.assertNotNull(task.getId())
+
+        );
     }
 }
