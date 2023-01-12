@@ -1,9 +1,29 @@
 package com.scaler.blogapp.comments;
 
-public class CommentEntity {
+import com.scaler.blogapp.articles.ArticleEntity;
+import com.scaler.blogapp.common.BaseEntity;
+import com.scaler.blogapp.users.UsersEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    /*
-    ASSIGNMENT 04: Complete this entity class based on this
-    https://github.com/scaleracademy/project-module-requirement-docs/blob/main/blogging-app/SCHEMA.md
-     */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity(name = "comments")
+public class CommentEntity extends BaseEntity {
+    @Column(nullable = false)
+    private String body;
+
+    @ManyToOne
+    private UsersEntity commenter;
+
+    @ManyToOne
+    private ArticleEntity article;
 }

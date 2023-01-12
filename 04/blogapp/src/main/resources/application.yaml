@@ -1,0 +1,13 @@
+server:
+  port: 9393
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:test
+    url: jdbc:h2:file:./test
+  jpa:
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+    hibernate:
+      ddl-auto: update
